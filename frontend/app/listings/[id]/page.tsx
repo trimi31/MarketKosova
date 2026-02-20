@@ -16,6 +16,7 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
     const [listing, setListing] = useState<Listing | null>(null);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
+    const [messagingLoading, setMessagingLoading] = useState(false);
 
     useEffect(() => {
         fetchListing();
@@ -44,6 +45,18 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
             alert('Failed to delete listing');
         } finally {
             setDeleting(false);
+        }
+    };
+
+    const handleMessageSeller = async () => {
+        setMessagingLoading(true);
+        try {
+            const res = await api.post(`/api/messages/conversations?listingId=${id}`);
+            router.push(`/messages/${res.data.id}`);
+        } catch (err) {
+            console.error('Failed to start conversation', err);
+            alert('Failed to start conversation');
+            setMessagingLoading(false);
         }
     };
 
@@ -140,6 +153,25 @@ export default function ListingDetailPage({ params }: { params: Promise<{ id: st
                                 <p className="text-gray-400 text-sm">Seller</p>
                             </div>
                         </div>
+                        {isAuthenticated && !isOwner && (
+                            <button
+                                onClick={handleMessageSeller}
+                                disabled={messagingLoading}
+                                className="w-full mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 rounded-xl font-medium shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                            >
+                                {messagingLoading ? (
+                                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                    </svg>
+                                ) : (
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                )}
+                                {messagingLoading ? 'Opening chat...' : 'Message Seller'}
+                            </button>
+                        )}
                     </div>
 
                     {/* Meta Info */}

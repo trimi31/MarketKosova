@@ -58,3 +58,24 @@ export interface ApiError {
   status: number;
   errors?: Record<string, string>;
 }
+
+export interface Conversation {
+  id: number;
+  listingId: number;
+  listingTitle: string;
+  listingImage: string | null;
+  otherUserId: number;
+  otherUsername: string;
+  lastMessage: string | null;
+  lastMessageAt: string | null;
+  createdAt: string;
+}
+
+export interface Message {
+  id: number;
+  conversationId: number;
+  senderId: number;
+  senderUsername: string;
+  content: string;
+  sentAt: string;
+}

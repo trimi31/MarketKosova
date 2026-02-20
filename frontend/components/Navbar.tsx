@@ -35,6 +35,12 @@ export default function Navbar() {
                                 <Link href="/listings/my" className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-all">
                                     My Listings
                                 </Link>
+                                <Link href="/messages" className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-all flex items-center gap-1.5">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                    Messages
+                                </Link>
                             </>
                         )}
                         {isAdmin && (
@@ -111,6 +117,9 @@ export default function Navbar() {
                                 </Link>
                                 <Link href="/listings/my" className="block text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm hover:bg-white/10" onClick={() => setMobileMenuOpen(false)}>
                                     My Listings
+                                </Link>
+                                <Link href="/messages" className="block text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm hover:bg-white/10" onClick={() => setMobileMenuOpen(false)}>
+                                    Messages
                                 </Link>
                             </>
                         )}
